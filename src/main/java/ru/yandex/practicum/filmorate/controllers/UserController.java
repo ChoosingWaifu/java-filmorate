@@ -33,13 +33,13 @@ public class UserController {
             log.warn("Login exception");
             throw new ValidationException("Login can't contain spaces");
         }
-        if (!user.getEmail().contains("@")) {
-            log.warn("Email exception");
-            throw new ValidationException("Email should contain @");
-        }
         if (user.getEmail() == null || user.getEmail().isEmpty() || user.getEmail().isBlank()) {
             log.warn("Email exception");
             throw new ValidationException("Email can't be empty");
+        }
+        if (!user.getEmail().contains("@")) {
+            log.warn("Email exception");
+            throw new ValidationException("Email should contain @");
         }
         if (user.getBirthday().isAfter(LocalDateTime.now().toLocalDate())) {
             log.warn("Birthday exception");

@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @SpringBootTest
 class UserControllerTests {
 
-	UserController userController;
-	User user;
+	private UserController userController;
+	private User user;
 
 	@BeforeEach
 	void beforeEach() {
@@ -29,25 +29,29 @@ class UserControllerTests {
 	@Test
 	void BirthdayValidationTest() {
 		user.setBirthday(LocalDate.MAX);
-		assertThrows(ValidationException.class,() -> userController.validate(user));
+		Exception ex = assertThrows(ValidationException.class,() -> userController.validate(user));
+		assertEquals("Birthday can't be in the future", ex.getMessage());
 	}
 
 	@Test
 	void LoginValidationTest() {
 		user.setLogin("we qwe");
-		assertThrows(ValidationException.class,() -> userController.validate(user));
+		Exception ex = assertThrows(ValidationException.class,() -> userController.validate(user));
+		assertEquals("Login can't contain spaces", ex.getMessage());
 	}
 
 	@Test
 	void EmailCharValidationTest() {
 		user.setEmail("test");
-		assertThrows(ValidationException.class,() -> userController.validate(user));
+		Exception ex = assertThrows(ValidationException.class,() -> userController.validate(user));
+		assertEquals("Email should contain @", ex.getMessage());
 	}
 
 	@Test
 	void EmptyEmailValidationTest() {
 		user.setEmail(" ");
-		assertThrows(ValidationException.class,() -> userController.validate(user));
+		Exception ex = assertThrows(ValidationException.class,() -> userController.validate(user));
+		assertEquals("Email can't be empty", ex.getMessage());
 	}
 
 }
