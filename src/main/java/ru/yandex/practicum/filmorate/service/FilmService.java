@@ -47,7 +47,7 @@ public class FilmService {
     public Set<Film> topFilms(int count) {
         return filmStorage.getAll()
                 .stream()
-                .sorted(Comparator.comparingInt(o -> o.getLikes().size()))
+                .sorted(Collections.reverseOrder(Comparator.comparingInt(o -> o.getLikes().size())))
                 .limit(count)
                 .collect(Collectors.toSet());
     }

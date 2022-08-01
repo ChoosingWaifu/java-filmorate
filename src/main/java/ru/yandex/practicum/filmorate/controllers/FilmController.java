@@ -13,7 +13,6 @@ import ru.yandex.practicum.filmorate.service.FilmService;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -65,13 +64,13 @@ public class FilmController {
     }
     @PutMapping (value = "/films/{id}/like/{userId}")
     public void addLike(@PathVariable long id, @PathVariable long userId) {
-        log.debug("Добавлен лайк пользователя: {}, фильм: {}", userId, id);
+        log.info("Добавлен лайк пользователя: {}, фильм: {}", userId, id);
         filmService.addLike(userId, id);
     }
     @DeleteMapping (value = "/films/{id}/like/{userId}")
     public void deleteLike(@PathVariable long id, @PathVariable long userId) throws NoSuchLikeException {
         if (filmService.getById(id).getLikes().contains(userId)) {
-            log.debug("Удален лайк пользователя: {}, фильм: {}", userId, id);
+            log.info("Удален лайк пользователя: {}, фильм: {}", userId, id);
             filmService.deleteLike(userId, id);
         } else throw new NoSuchLikeException("No such like");
 
