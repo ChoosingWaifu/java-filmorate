@@ -22,16 +22,14 @@ public class InMemoryFilmStorage implements FilmStorage {
         return films.values();
     }
 
-    public Film addFilm(Film film) {
+    public void addFilm(Film film) {
         film.setId(filmId++);
         films.put(film.getId(), film);
-        return film;
     }
 
-    public Film updateFilm(Film film) {
+    public void updateFilm(Film film) {
         films.remove(film.getId());
         films.put(film.getId(), film);
-        return film;
     }
 
     public Map<Long, Film> getFilms() {

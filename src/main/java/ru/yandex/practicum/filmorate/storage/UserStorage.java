@@ -11,9 +11,9 @@ public interface UserStorage {
 
     Collection<User> getAll();
 
-    User addUser(User user);
+    void addUser(User user);
 
-    User updateUser(User user);
+    void updateUser(User user);
 
     Map<Long, User> getUsers();
 }

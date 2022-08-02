@@ -11,9 +11,9 @@ public interface FilmStorage {
 
     Collection<Film> getAll();
 
-    Film addFilm(Film film);
+    void addFilm(Film film);
 
-    Film updateFilm(Film film);
+    void updateFilm(Film film);
     Map<Long, Film> getFilms();
 
 }

@@ -19,15 +19,13 @@ public class InMemoryUserStorage implements UserStorage {
         return users.values();
     }
 
-    public User addUser(User user) {
+    public void addUser(User user) {
         user.setId(userId++);
         users.put(user.getId(), user);
-        return user;
     }
-    public User updateUser(User user) {
+    public void updateUser(User user) {
         users.remove(user.getId());
         users.put(user.getId(),user);
-        return user;
     }
     public Map<Long, User> getUsers() {
         return users;
