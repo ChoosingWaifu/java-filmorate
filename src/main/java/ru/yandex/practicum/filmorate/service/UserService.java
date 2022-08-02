@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exceptions.NoSuchUserException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
@@ -25,12 +24,12 @@ public class UserService {
     public Collection<User> getAll() {
         return userStorage.getAll();
     }
-    public User addUser(User user) {
-        return userStorage.addUser(user);
+    public void addUser(User user) {
+        userStorage.addUser(user);
     }
 
-    public User updateUser(User user) {
-        return userStorage.updateUser(user);
+    public void updateUser(User user) {
+        userStorage.updateUser(user);
     }
 
     public Map<Long, User> getUsers() {
@@ -48,7 +47,7 @@ public class UserService {
         Set <Long> friendsId = getAll().stream()
                 .filter(x -> x.getId() == id)
                 .findFirst()
-                .get()
+                .orElseThrow()
                 .getFriends();
         Set<User> friends = new HashSet<>();
         for(Long fId : friendsId) {

@@ -15,7 +15,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     private Long filmId = 1L;
 
     public Film getById(long id) {
-        return films.get(id);//null pointer
+        return films.get(id);
     }
 
     public Collection<Film> getAll() {

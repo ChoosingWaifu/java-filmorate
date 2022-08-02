@@ -25,12 +25,12 @@ public class FilmService {
         return filmStorage.getAll();
     }
 
-    public Film addFilm(Film film) {
-        return filmStorage.addFilm(film);
+    public void addFilm(Film film) {
+        filmStorage.addFilm(film);
     }
 
-    public Film updateFilm(Film film) {
-        return filmStorage.updateFilm(film);
+    public void updateFilm(Film film) {
+        filmStorage.updateFilm(film);
     }
     public Map<Long, Film> getFilms() {
         return filmStorage.getFilms();
