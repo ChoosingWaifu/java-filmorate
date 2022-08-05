@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controllers.UserController;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import java.time.LocalDate;
 
@@ -19,7 +21,7 @@ class UserControllerTests {
 
 	@BeforeEach
 	void beforeEach() {
-		userController = new UserController();
+		userController = new UserController(new UserService(new InMemoryUserStorage()));
 		user = new User();
 		user.setEmail("w@ya.ru");
 		user.setLogin("qwe");
