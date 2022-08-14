@@ -54,5 +54,6 @@ public class UserService {
     public List<User> commonFriends(long userId, long friendId) {
        return userStorage.commonFriends(userId, friendId);
     }
+    //
 
 }
