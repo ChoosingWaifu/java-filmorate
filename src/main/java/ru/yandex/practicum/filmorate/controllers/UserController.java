@@ -11,7 +11,6 @@ import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Set;
 
 @RestController
 
@@ -31,12 +30,12 @@ public class UserController {
         } else throw new NoSuchUserException("No such user");
     }
     @GetMapping ("/users/{id}/friends")
-    public Set<User> friendsById(@PathVariable long id) {
+    public Collection<User> friendsById(@PathVariable long id) {
         log.debug("Друзья пользователя: {}", userService.getUsers().get(id));
         return userService.friendsById(id);
     }
     @GetMapping ("/users/{id}/friends/common/{otherId}")
-    public Set<User> commonFriends(@PathVariable long id,@PathVariable long otherId) {
+    public Collection<User> commonFriends(@PathVariable long id,@PathVariable long otherId) {
         log.debug("Общие друзья пользователей: {}, {}",
                    userService.getUsers().get(id), userService.getUsers().get(otherId));
         return userService.commonFriends(id, otherId);

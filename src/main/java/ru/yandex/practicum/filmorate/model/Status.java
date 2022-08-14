@@ -11,7 +11,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Status {
 
-    private int status_id;
+    private int id;
 
-    private String status;
+    private String name;
+    public String toString() {
+        return "Status{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -11,7 +11,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Mpa {
 
-    private int Mpa_id;
+    private int id;
 
-    private String Mpa;
+    private String name;
+
+    public String toString() {
+        return "Mpa{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

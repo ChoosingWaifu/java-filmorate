@@ -11,30 +11,20 @@ import java.util.Objects;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-
-public class Genre {
-
-    private int id;
-
-    private String name;
-
-    public String toString() {
-        return "Genre{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+public class Like {
+    private long film_id;
+    private long user_id;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Genre genre = (Genre) o;
-        return getId() == genre.getId() && Objects.equals(getName(), genre.getName());
+        Like like = (Like) o;
+        return getFilm_id() == like.getFilm_id() && getUser_id() == like.getUser_id();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getFilm_id(), getUser_id());
     }
 }

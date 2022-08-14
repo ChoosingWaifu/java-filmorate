@@ -20,4 +20,11 @@ public class User {
     private String name;
     private LocalDate birthday;
     private final Set<Long> friends = new HashSet<>();
+
+   public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
