@@ -3,10 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -28,5 +25,17 @@ public class Film {
                 ", name='" + name + '\'' +
                 ", genres=" + genres +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Film film = (Film) o;
+        return getId() == film.getId() && getName().equals(film.getName());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }
