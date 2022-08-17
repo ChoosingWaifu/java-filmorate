@@ -4,16 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exceptions.NoSuchFilmException;
-import ru.yandex.practicum.filmorate.exceptions.NoSuchLikeException;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Like;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Set;
 
 @RestController
 public class FilmController {
@@ -37,7 +37,7 @@ public class FilmController {
         return filmService.getAll();
     }
     @GetMapping ("/films/popular")
-    public Set<Film> topFilms(@RequestParam(required = false) Integer count){
+    public Collection<Film> topFilms(@RequestParam(required = false) Integer count){
         if(count == null || count<= 0) {
             count = 10;
         }
@@ -69,12 +69,34 @@ public class FilmController {
     }
     @DeleteMapping (value = "/films/{id}/like/{userId}")
     public void deleteLike(@PathVariable long id, @PathVariable long userId) throws NoSuchLikeException {
-        if (filmService.getById(id).getLikes().contains(userId)) {
+        if (filmService.getAllLikes().contains(new Like(id,userId))) {
             log.info("Удален лайк пользователя: {}, фильм: {}", userId, id);
             filmService.deleteLike(userId, id);
         } else throw new NoSuchLikeException("No such like");
-
-
+    }
+    @GetMapping(value = "/mpa")
+    public Collection<Mpa> getAllMpa() {
+        log.debug("get all mpa");
+        return filmService.getAllMpa();
+    }
+    @GetMapping(value = "/mpa/{id}")
+    public Mpa getMpaById(@PathVariable int id) throws NoSuchMpaException {
+        if (id<0) {
+            throw new NoSuchMpaException("no such mpa");
+        }
+        return filmService.getMpaById(id);
+    }
+    @GetMapping(value = "/genres")
+    public Collection<Genre> getAllGenres() {
+        return filmService.getAllGenres();
+    }
+    @GetMapping(value = "/genres/{id}")
+    public Genre getGenreById(@PathVariable int id) throws NoSuchGenreException {
+        if (id<0) {
+            throw new NoSuchGenreException("no such mpa");
+        }
+        log.info("genre by id {}",filmService.getGenreById(id));
+        return filmService.getGenreById(id);
     }
 
     public void validate(Film film) throws ValidationException {

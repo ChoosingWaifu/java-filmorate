@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.controllers.FilmController;
 import ru.yandex.practicum.filmorate.controllers.UserController;
-import ru.yandex.practicum.filmorate.exceptions.NoSuchFilmException;
-import ru.yandex.practicum.filmorate.exceptions.NoSuchLikeException;
-import ru.yandex.practicum.filmorate.exceptions.NoSuchUserException;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,7 +19,8 @@ public class ErrorHandler {
         return Map.of("validation exception", e.getMessage());
     }
 
-    @ExceptionHandler({NoSuchUserException.class, NoSuchFilmException.class, NoSuchLikeException.class})
+    @ExceptionHandler({NoSuchUserException.class, NoSuchFilmException.class, NoSuchLikeException.class,
+    NoSuchMpaException.class, NoSuchGenreException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleNoFoundExceptions(final Exception e) {
         return Map.of("not found", e.getMessage());

@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -37,34 +38,22 @@ public class UserService {
     }
 
     public void addFriend(long userId, long friendId) {
-        if (userStorage.getUsers().containsKey(userId)
+         if (userStorage.getUsers().containsKey(userId)
          && userStorage.getUsers().containsKey(friendId)) {
-            userStorage.getUsers().get(userId).getFriends().add(friendId);
-            userStorage.getUsers().get(friendId).getFriends().add(userId);
-        }
+             userStorage.addFriend(userId, friendId);
+         }
     }
-    public Set<User> friendsById(long id) {
-        Set <Long> friendsId = getAll().stream()
-                .filter(x -> x.getId() == id)
-                .findFirst()
-                .orElseThrow()
-                .getFriends();
-        Set<User> friends = new HashSet<>();
-        for(Long fId : friendsId) {
-            friends.add(getById(fId));
-        }
-        return friends;
+    public Collection<User> friendsById(long id) {
+        return userStorage.friendsById(id);
     }
 
     public void deleteFriend(long userId, long friendId) {
-        userStorage.getUsers().get(userId).getFriends().remove(friendId);
-        userStorage.getUsers().get(friendId).getFriends().remove(userId);
+        userStorage.deleteFriend(userId, friendId);
     }
 
-    public Set<User> commonFriends(long userId, long friendId) {
-        Set<User> userFriends = friendsById(userId);
-        Set<User> friendFriends = friendsById(friendId);
-        return userFriends.stream().filter(friendFriends::contains).collect(Collectors.toSet());
+    public List<User> commonFriends(long userId, long friendId) {
+       return userStorage.commonFriends(userId, friendId);
     }
+    //
 
 }

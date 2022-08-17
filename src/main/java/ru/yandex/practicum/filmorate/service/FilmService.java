@@ -3,10 +3,13 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Like;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Map;
 
 @Service
 public class FilmService {
@@ -37,18 +40,29 @@ public class FilmService {
     }
 
     public void addLike(long userId, long filmId) {
-        filmStorage.getFilms().get(filmId).getLikes().add(userId);
+        filmStorage.addLike(userId, filmId);
     }
 
     public void deleteLike(long userId, long filmId) {
-        filmStorage.getFilms().get(filmId).getLikes().remove(userId);
+        filmStorage.deleteLike(userId,filmId);
     }
 
-    public Set<Film> topFilms(int count) {
-        return filmStorage.getAll()
-                .stream()
-                .sorted(Collections.reverseOrder(Comparator.comparingInt(o -> o.getLikes().size())))
-                .limit(count)
-                .collect(Collectors.toSet());
+    public Collection<Film> topFilms(int count) {
+        return filmStorage.topFilms(count);
+    }
+    public Mpa getMpaById(int id) {
+        return filmStorage.getMpaById(id);
+    }
+    public Genre getGenreById(int id) {
+        return filmStorage.getGenreById(id);
+    }
+    public Collection<Mpa> getAllMpa() {
+        return filmStorage.getAllMpa();
+    }
+    public Collection<Genre> getAllGenres() {
+        return filmStorage.getAllGenre();
+    }
+    public Collection<Like> getAllLikes(){
+        return filmStorage.getAllLikes();
     }
 }
