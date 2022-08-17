@@ -21,7 +21,9 @@ create table if not exists films (
                        description varchar(200),
                        release_date timestamp,
                        duration int,
-                       mpa_id int references MPA(mpa_id)
+                       mpa_id int references MPA(mpa_id),
+                       constraint FILMS_NAME_UNQ
+                       unique  (name)
 );
 
 create table if not exists films_genres (
@@ -34,18 +36,12 @@ CREATE TABLE if not exists users (
                          email varchar NOT NULL,
                          login varchar NOT NULL,
                          name varchar,
-                         birthday timestamp
+                         birthday timestamp,
+                         constraint USERS_LOGIN_UNQ
+                         unique (login),
+                         constraint USERS_EMAIL_UNQ
+                         unique (email)
 );
-
-create unique index USERS_LOGIN_UNQ
-    on users (login);
-
-create unique index USERS_EMAIL_UNQ
-    on users (email);
-
-create unique index FILMS_NAME_UNQ
-    on films (name);
-
 
 CREATE TABLE if not exists friendship (
                             user_id long references users(id),

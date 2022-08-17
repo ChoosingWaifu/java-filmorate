@@ -103,19 +103,14 @@ public class UserDbStorage implements UserStorage {
     }
 
     public List<User> commonFriends(long userId, long friendId) {
-        Collection<User> userFriends = friendsById(userId);
-        Collection<User> friendFriends = friendsById(friendId);
-        List<Long> uId = userFriends.stream().map(User::getId).collect(Collectors.toList());
-        List<Long> fId = friendFriends.stream().map(User::getId).collect(Collectors.toList());
-        List<Long> cId = uId.stream().filter(fId::contains).collect(Collectors.toList());
-        List<User> result = new ArrayList<>();
-        for(Long id: cId) {
-            result.add(getById(id));
-        }
-        log.info("user friends - {}, friend friends - {}, common friends {}, {}",userFriends, friendFriends, userId, result);
+        String sqlQuery = "SELECT * FROM USERS WHERE ID IN (SELECT FRIEND_ID FROM FRIENDSHIP WHERE USER_ID = ?)" +
+                "INTERSECT SELECT * FROM USERS WHERE ID IN (SELECT FRIEND_ID FROM FRIENDSHIP WHERE USER_ID = ?)";
+        List<User> result = jdbcTemplate.query(sqlQuery, this::makeUser, userId, friendId);
+        log.info("user {}, friend {}, common friends {}", userId, friendId, result);
         return result;
     }
-    public Long makeFriends(ResultSet rs, int rowNum) throws SQLException {
+
+    private Long makeFriends(ResultSet rs, int rowNum) throws SQLException {
         return rs.getLong("FRIEND_ID");
     }
 }
